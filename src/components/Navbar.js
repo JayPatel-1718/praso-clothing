@@ -4,6 +4,13 @@ import "./Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 
+<div class="hamburger-menu" onclick="toggleMenu()">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+
 function Navbar({ user, setUser }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
