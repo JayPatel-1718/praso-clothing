@@ -5,17 +5,28 @@ import BasicLanding from './components/BasicLanding';
 import Quiz from './components/Quiz';
 import PersonalizedLanding from './components/PersonalizedLanding';
 import Login from './components/Login';
+import Loading from './components/Loading'; // Import the loading component
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Manage loading state
 
-  // Check if user is already logged in (saved in localStorage)
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    // Simulate loading time (e.g., fetching user data)
+    const timer = setTimeout(() => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+      setLoading(false); // Set loading to false after fetching data
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  if (loading) {
+    return <Loading />; // Display loading animation while loading
+  }
 
   return (
     <Router>

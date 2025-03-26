@@ -1,36 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import "./Navbar.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faCog, faSignOutAlt, faUser } from "@fortawesome/free-solid-svg-icons";
-
-<div class="hamburger-menu" onclick="toggleMenu()">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
-
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Navbar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faShoppingCart, faCog, faSignOutAlt, faBell } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar({ user, setUser }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
+        setDropdownOpen(false); // Close dropdown if clicked outside
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem('user');
     setUser(null);
     setDropdownOpen(false);
+    navigate('/'); // Redirect to home after logout
   };
 
   return (
@@ -39,19 +32,13 @@ function Navbar({ user, setUser }) {
         <Link to="/">Praso</Link>
       </div>
 
-      {/* Hamburger Menu for Mobile */}
-      <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-        ☰
-      </div>
-
-      {/* Main Navigation */}
-      <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
+      <ul className="nav-links">
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/policies">Policies</Link></li>
+        <li><Link to="/shop">Shop</Link></li>
+        <li><Link to="/about">About Us</Link></li>
         <li><Link to="/contact">Contact</Link></li>
       </ul>
 
-      {/* Account Section */}
       <div className="account" ref={dropdownRef}>
         {user ? (
           <div className="profile-box" onClick={() => setDropdownOpen(!dropdownOpen)}>
@@ -64,7 +51,9 @@ function Navbar({ user, setUser }) {
           </Link>
         )}
 
-        {/* Dropdown */}
+        <FontAwesomeIcon icon={faBell} className="notifications-icon" /> {/* Additional clickable bell icon */}
+
+        {/* Dropdown after login */}
         {dropdownOpen && user && (
           <div className="dropdown">
             <ul>
