@@ -83,25 +83,29 @@ function BasicLanding({ heroImage }) {
       <section className="features-section fade-in-delayed">
         <h2>Our Exclusive Features</h2>
         <div className="features-grid">
-          <div className="feature-card feature-card-crazy">
+          <div className="feature-card">
             <FontAwesomeIcon icon={faTshirt} className="feature-icon" />
             <h3>Virtual Fitting Room</h3>
             <p>Try on clothes virtually to find your perfect fit from the comfort of your home!</p>
+            <a href="/virtual-fitting-room" className="feature-btn">Try Now</a>
           </div>
-          <div className="feature-card feature-card-crazy">
+          <div className="feature-card">
             <FontAwesomeIcon icon={faGift} className="feature-icon" />
             <h3>Exclusive Rewards</h3>
             <p>Earn points with every purchase and unlock amazing rewards only for our loyal customers.</p>
+            <a href="/rewards" className="feature-btn">Earn Rewards</a>
           </div>
-          <div className="feature-card feature-card-crazy">
+          <div className="feature-card">
             <FontAwesomeIcon icon={faPalette} className="feature-icon" />
             <h3>Custom Designs</h3>
             <p>Create your own unique design and have it printed on our products.</p>
+            <a href="/custom-design" className="feature-btn">Design Now</a>
           </div>
-          <div className="feature-card feature-card-crazy">
+          <div className="feature-card">
             <FontAwesomeIcon icon={faTags} className="feature-icon" />
             <h3>Seasonal Sales</h3>
             <p>Enjoy discounts and sales on our products every season. Stay stylish while saving!</p>
+            <a href="/sales" className="feature-btn">Shop Sales</a>
           </div>
         </div>
       </section>
