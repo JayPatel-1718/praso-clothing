@@ -18,6 +18,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
       <ToastContainer />
     </CartProvider>
