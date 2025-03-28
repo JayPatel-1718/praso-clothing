@@ -1,23 +1,56 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion'; // Import framer-motion
+import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import { CartContext } from '../context/CartContext';
-import { FiPenTool, FiCamera, FiGift, FiShield, FiTruck, FiHeadphones, FiMail, FiFacebook, FiInstagram, FiTwitter } from 'react-icons/fi'; // Import icons
+import { AuthContext } from '../context/AuthContext';
+import { FiPenTool, FiCamera, FiGift, FiShield, FiTruck, FiHeadphones, FiMail, FiFacebook, FiInstagram, FiTwitter } from 'react-icons/fi';
 import './Home.css';
 
 function Home() {
   const { addToCart } = useContext(CartContext);
+  const { user, quizPreferences, saveQuizPreferences } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const featuredProducts = [
-    { id: 1, name: 'Classic T-Shirt', price: 19.99, image: 'https://via.placeholder.com/300x400?text=Classic+T-Shirt' },
-    { id: 2, name: 'Denim Jeans', price: 49.99, image: 'https://via.placeholder.com/300x400?text=Denim+Jeans' },
-    { id: 3, name: 'Hooded Sweatshirt', price: 39.99, image: 'https://via.placeholder.com/300x400?text=Hooded+Sweatshirt' },
+  // State for quiz modal and steps
+  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
+  const [quizStep, setQuizStep] = useState('intro'); // intro, quiz, results
+  const [quizAnswers, setQuizAnswers] = useState({
+    style: '',
+    color: '',
+    occasion: '',
+  });
+
+  const allProducts = [
+    { id: 1, name: 'Classic T-Shirt', price: 19.99, image: 'https://via.placeholder.com/300x400?text=Classic+T-Shirt', style: 'casual', color: 'white', occasion: 'everyday' },
+    { id: 2, name: 'Denim Jeans', price: 49.99, image: 'https://via.placeholder.com/300x400?text=Denim+Jeans', style: 'casual', color: 'blue', occasion: 'everyday' },
+    { id: 3, name: 'Hooded Sweatshirt', price: 39.99, image: 'https://via.placeholder.com/300x400?text=Hooded+Sweatshirt', style: 'casual', color: 'gray', occasion: 'everyday' },
+    { id: 4, name: 'Leather Jacket', price: 89.99, image: 'https://via.placeholder.com/300x400?text=Leather+Jacket', style: 'edgy', color: 'black', occasion: 'party' },
+    { id: 5, name: 'Summer Dress', price: 29.99, image: 'https://via.placeholder.com/300x400?text=Summer+Dress', style: 'bohemian', color: 'red', occasion: 'party' },
+    { id: 6, name: 'Formal Shirt', price: 34.99, image: 'https://via.placeholder.com/300x400?text=Formal+Shirt', style: 'formal', color: 'white', occasion: 'work' },
   ];
 
+  // Filter products based on quiz preferences
+  const featuredProducts = quizPreferences
+    ? allProducts.filter(product =>
+        (quizPreferences.style === '' || product.style === quizPreferences.style) &&
+        (quizPreferences.color === '' || product.color === quizPreferences.color) &&
+        (quizPreferences.occasion === '' || product.occasion === quizPreferences.occasion)
+      )
+    : allProducts.slice(0, 3); // Default to first 3 products if no preferences
+
   const handleStyleQuiz = () => {
-    alert('Style Quiz coming soon!');
+    setIsQuizModalOpen(true);
+    setQuizStep('intro');
+  };
+
+  const handleQuizAnswer = (question, answer) => {
+    setQuizAnswers(prev => ({ ...prev, [question]: answer }));
+  };
+
+  const handleQuizSubmit = () => {
+    saveQuizPreferences(quizAnswers);
+    setQuizStep('results');
   };
 
   const handleNewsletterSubmit = (e) => {
@@ -25,7 +58,6 @@ function Home() {
     alert('Thank you for subscribing!');
   };
 
-  // Animation variants for fade-in effect
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
@@ -49,25 +81,141 @@ function Home() {
       <section className="style-quiz-section">
         <h2>Find Your Style</h2>
         <p>Take our style quiz to discover personalized fashion recommendations.</p>
-        <button className="style-quiz-cta" onClick={handleStyleQuiz}>
+        <motion.button
+          className="style-quiz-cta"
+          onClick={handleStyleQuiz}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           Take the Quiz
-        </button>
+        </motion.button>
+
+        {/* Quiz Modal */}
+        {isQuizModalOpen && (
+          <motion.div
+            className="quiz-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="quiz-modal-content">
+              <button className="quiz-modal-close" onClick={() => setIsQuizModalOpen(false)}>
+                ×
+              </button>
+
+              {quizStep === 'intro' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h3>How the Style Quiz Works</h3>
+                  <p>
+                    Our style quiz helps you find the perfect clothing by asking a few simple questions about your preferences. Answer the questions, and we’ll curate a personalized selection just for you!
+                  </p>
+                  <div className="quiz-auth">
+                    {user ? (
+                      <div className="quiz-auth-logged">
+                        <div className="user-box">
+                          <p>Logged in as: <strong>{user.username}</strong></p>
+                        </div>
+                        <button onClick={() => setQuizStep('quiz')}>
+                          Continue
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="quiz-auth-not-logged">
+                        <p>You need to sign up to take the quiz.</p>
+                        <button onClick={() => navigate('/signup')}>
+                          Sign Up Now
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+
+              {quizStep === 'quiz' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h3>Style Quiz</h3>
+                  <div className="quiz-question">
+                    <p>1. What’s your preferred style?</p>
+                    <div className="quiz-options">
+                      <button onClick={() => handleQuizAnswer('style', 'casual')}>Casual</button>
+                      <button onClick={() => handleQuizAnswer('style', 'formal')}>Formal</button>
+                      <button onClick={() => handleQuizAnswer('style', 'bohemian')}>Bohemian</button>
+                      <button onClick={() => handleQuizAnswer('style', 'edgy')}>Edgy</button>
+                    </div>
+                  </div>
+                  <div className="quiz-question">
+                    <p>2. What’s your favorite color?</p>
+                    <div className="quiz-options">
+                      <button onClick={() => handleQuizAnswer('color', 'white')}>White</button>
+                      <button onClick={() => handleQuizAnswer('color', 'blue')}>Blue</button>
+                      <button onClick={() => handleQuizAnswer('color', 'red')}>Red</button>
+                      <button onClick={() => handleQuizAnswer('color', 'black')}>Black</button>
+                    </div>
+                  </div>
+                  <div className="quiz-question">
+                    <p>3. What occasion do you shop for most?</p>
+                    <div className="quiz-options">
+                      <button onClick={() => handleQuizAnswer('occasion', 'everyday')}>Everyday</button>
+                      <button onClick={() => handleQuizAnswer('occasion', 'work')}>Work</button>
+                      <button onClick={() => handleQuizAnswer('occasion', 'party')}>Party</button>
+                    </div>
+                  </div>
+                  <button className="quiz-submit" onClick={handleQuizSubmit}>
+                    Submit
+                  </button>
+                </motion.div>
+              )}
+
+              {quizStep === 'results' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h3>Your Style Profile</h3>
+                  <p>Based on your answers, we’ve curated a personalized selection for you!</p>
+                  <ul>
+                    <li>Style: {quizAnswers.style || 'Not specified'}</li>
+                    <li>Color: {quizAnswers.color || 'Not specified'}</li>
+                    <li>Occasion: {quizAnswers.occasion || 'Not specified'}</li>
+                  </ul>
+                  <button onClick={() => setIsQuizModalOpen(false)}>
+                    See Your Recommendations
+                  </button>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+        )}
       </section>
 
       {/* Featured Products Section */}
       <section className="featured-products-section">
-        <h2>Featured Products</h2>
+        <h2>{quizPreferences ? 'Your Personalized Recommendations' : 'Featured Products'}</h2>
         <div className="product-grid">
-          {featuredProducts.map(product => (
-            <div key={product.id} className="product-card">
-              <img src={product.image} alt={product.name} className="product-image" />
-              <h3>{product.name}</h3>
-              <p>${product.price.toFixed(2)}</p>
-              <button className="add-to-cart" onClick={() => addToCart(product)}>
-                Add to Cart
-              </button>
-            </div>
-          ))}
+          {featuredProducts.length > 0 ? (
+            featuredProducts.map(product => (
+              <div key={product.id} className="product-card">
+                <img src={product.image} alt={product.name} className="product-image" />
+                <h3>{product.name}</h3>
+                <p>${product.price.toFixed(2)}</p>
+                <button className="add-to-cart" onClick={() => addToCart(product)}>
+                  Add to Cart
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No products match your preferences. Try adjusting your quiz answers!</p>
+          )}
         </div>
       </section>
 

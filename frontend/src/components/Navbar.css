@@ -95,3 +95,23 @@
   font-weight: 600;
   font-family: 'Montserrat', sans-serif;
 }
+
+/* Add to existing Navbar.css */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-pfp {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+}
