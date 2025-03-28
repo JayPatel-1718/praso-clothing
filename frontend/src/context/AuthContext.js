@@ -1,4 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { auth, db } from '../firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export const AuthContext = createContext();
 
@@ -7,32 +10,52 @@ export const AuthProvider = ({ children }) => {
   const [quizPreferences, setQuizPreferences] = useState(null);
 
   useEffect(() => {
-    // Load user and preferences from local storage on mount
-    const storedUser = localStorage.getItem('user');
-    const storedPreferences = localStorage.getItem('quizPreferences');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    if (storedPreferences) {
-      setQuizPreferences(JSON.parse(storedPreferences));
-    }
+    // Listen for auth state changes
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // Fetch user data from Firestore
+        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUser({
+            uid: firebaseUser.uid,
+            username: userData.username,
+            email: userData.email,
+            pfp: userData.pfp || 'https://via.placeholder.com/30?text=' + userData.username.charAt(0).toUpperCase(),
+          });
+          setQuizPreferences(userData.quizPreferences || null);
+        }
+      } else {
+        setUser(null);
+        setQuizPreferences(null);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const login = (userData) => {
+  const login = async (userData) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    // Save user data to Firestore
+    await setDoc(doc(db, 'users', userData.uid), {
+      username: userData.username,
+      email: userData.email,
+      pfp: userData.pfp,
+      quizPreferences: null,
+    });
   };
 
   const logout = () => {
+    auth.signOut();
     setUser(null);
     setQuizPreferences(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('quizPreferences');
   };
 
-  const saveQuizPreferences = (preferences) => {
+  const saveQuizPreferences = async (preferences) => {
     setQuizPreferences(preferences);
-    localStorage.setItem('quizPreferences', JSON.stringify(preferences));
+    if (user) {
+      await setDoc(doc(db, 'users', user.uid), { quizPreferences: preferences }, { merge: true });
+    }
   };
 
   return (

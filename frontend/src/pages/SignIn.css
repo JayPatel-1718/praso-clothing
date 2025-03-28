@@ -18,6 +18,12 @@
     margin-bottom: 2rem;
   }
   
+  .error {
+    color: #ff4d4d;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
   .signin-form {
     display: flex;
     flex-direction: column;
@@ -30,6 +36,20 @@
     border-radius: 5px;
     font-size: 1rem;
     font-family: 'Montserrat', sans-serif;
+  }
+  
+  .password-field {
+    position: relative;
+  }
+  
+  .eye-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6b7280;
+    font-size: 1.2rem;
   }
   
   .signin-form button {
@@ -47,6 +67,24 @@
   
   .signin-form button:hover {
     background: #e63939;
+  }
+  
+  .google-signin {
+    background: #4285f4;
+    color: #ffffff;
+    border: none;
+    padding: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+    transition: background 0.3s ease;
+  }
+  
+  .google-signin:hover {
+    background: #3267d6;
   }
   
   .signin-section p {
