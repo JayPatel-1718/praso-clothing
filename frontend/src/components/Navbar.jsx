@@ -1,29 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
-import { AuthContext } from '../context/AuthContext'; // Import AuthContext
+import { AuthContext } from '../context/AuthContext';
 import { FiSearch, FiShoppingBag } from 'react-icons/fi';
 import './Navbar.css';
 
 function Navbar() {
   const { cart } = useContext(CartContext);
-  const { user, logout } = useContext(AuthContext); // Get user and logout from AuthContext
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleSearch = () => {
     alert('Search functionality coming soon!');
   };
 
   const handleUserClick = () => {
-    if (user) {
-      // If user is logged in, show logout option
-      if (window.confirm('Do you want to log out?')) {
-        logout();
-      }
-    } else {
-      // If user is not logged in, navigate to sign-in page
+    if (!user) {
       navigate('/signin');
+    } else {
+      setIsDropdownOpen(!isDropdownOpen);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setIsDropdownOpen(false);
+    navigate('/');
   };
 
   return (
@@ -36,25 +39,40 @@ function Navbar() {
         <li><a href="/shop" className={window.location.pathname === '/shop' ? 'active' : ''}>Shop</a></li>
         <li><a href="/about" className={window.location.pathname === '/about' ? 'active' : ''}>About</a></li>
         <li><a href="/contact" className={window.location.pathname === '/contact' ? 'active' : ''}>Contact</a></li>
+        <li><a href="/custom-design" className={window.location.pathname === '/custom-design' ? 'active' : ''}>Custom Design</a></li>
       </ul>
       <div className="navbar-icons">
         <span className="icon search-icon" onClick={handleSearch} title="Search">
           <FiSearch />
         </span>
-        <span className="icon user-icon" onClick={handleUserClick} title={user ? user.username : 'Account'}>
-          {user ? (
-            <div className="user-info">
-              <img
-                src={user.pfp || 'https://via.placeholder.com/30?text=PFP'} // Placeholder PFP if none provided
-                alt="Profile"
-                className="user-pfp"
-              />
-              <span className="user-name">{user.username}</span>
+        <div className="user-container" onClick={handleUserClick}>
+          <span className="icon user-icon" title={user ? user.username : 'Account'}>
+            {user ? (
+              <div className="user-info">
+                <img
+                  src={user.pfp || 'https://via.placeholder.com/30?text=PFP'}
+                  alt="Profile"
+                  className="user-pfp"
+                />
+              </div>
+            ) : (
+              '👤'
+            )}
+          </span>
+          {user && isDropdownOpen && (
+            <div className="user-dropdown">
+              <ul>
+                <li onClick={() => { navigate('/account-settings'); setIsDropdownOpen(false); }}>
+                  Account Settings
+                </li>
+                <li onClick={() => { navigate('/rewards'); setIsDropdownOpen(false); }}>
+                  Rewards
+                </li>
+                <li onClick={handleLogout}>Logout</li>
+              </ul>
             </div>
-          ) : (
-            '👤'
           )}
-        </span>
+        </div>
         <span className="icon cart-icon" onClick={() => navigate('/cart')} title="Cart">
           <FiShoppingBag />
           {cart.length > 0 && <span className="cart-count">{cart.length}</span>}

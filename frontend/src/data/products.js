@@ -1,0 +1,70 @@
+const allProducts = [
+    {
+      id: 1,
+      name: 'Angel Tee',
+      price: 799,
+      salePrice: 299,
+      images: ['/images/back_1.png'],
+      sizes: ['S', 'M', 'L', 'XL'],
+      colors: ['white'],
+      style: 'casual',
+      color: 'white',
+      occasion: 'everyday',
+      category: 'Tees',
+      description: 'A soft cotton white tee with angelic graphic art—perfect for everyday chill looks.'
+    },
+    {
+      id: 2,
+      name: 'Fate Dominant',
+      price: 899,
+      salePrice: 749,
+      images: [
+        '/images/Fate_Dominant_2.png',
+        '/images/Fate_Dominant_1.png',
+        '/images/Fate_Dominant_back.png',
+      ],
+      sizes: ['S', 'M', 'L'],
+      colors: ['black'],
+      style: 'casual',
+      color: 'black',
+      occasion: 'everyday',
+      category: 'Tees',
+      description: 'Dominate your fate in this dark-themed graphic tee made for statement makers.'
+    },
+    {
+      id: 3,
+      name: 'Trasher',
+      price: 1199,
+      salePrice: 899,
+      images: [
+        '/images/Trasher.jpg',
+        '/images/Trasher_side.jpg',
+        '/images/Trasher_back.jpg',
+      ],
+      sizes: ['M', 'L', 'XL'],
+      colors: ['gray'],
+      style: 'casual',
+      color: 'gray',
+      occasion: 'everyday',
+      category: 'Tees',
+      description: 'A rugged street-style tee with burnt texture and bold print. Not for the faint-hearted.'
+    },
+    {
+      id: 4,
+      name: 'The 77',
+      price: 3499,
+      salePrice: 1999,
+      images: [
+        '/images/Jacket_1.jpg',
+        '/images/Jacket_2.jpg',
+        '/images/Jacket_back.jpg',
+      ],
+      sizes: ['L', 'XL'],
+      colors: ['black'],
+      style: 'edgy',
+      color: 'black',
+      occasion: 'party',
+      category: 'Hoodies',
+      description: 'Edgy oversized jacket for the wild nights. With bold embroidery and zipped flair.'
+    },
+  ];

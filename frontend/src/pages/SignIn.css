@@ -1,103 +1,139 @@
+/* General Styles */
 .signin-page {
-    background: #f5f5f5;
-    color: #2c3e50;
-  }
-  
-  .signin-section {
-    padding: 4rem 2rem;
-    max-width: 500px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  
-  .signin-section h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 2rem;
-  }
-  
-  .error {
-    color: #ff4d4d;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .signin-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .signin-form input {
-    padding: 1rem;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  .password-field {
-    position: relative;
-  }
-  
-  .eye-icon {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #6b7280;
-    font-size: 1.2rem;
-  }
-  
-  .signin-form button {
-    background: #ff4d4d;
-    color: #ffffff;
-    border: none;
-    padding: 1rem;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .signin-form button:hover {
-    background: #e63939;
-  }
-  
-  .google-signin {
-    background: #4285f4;
-    color: #ffffff;
-    border: none;
-    padding: 1rem;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 1rem;
-    width: 100%;
-    transition: background 0.3s ease;
-  }
-  
-  .google-signin:hover {
-    background: #3267d6;
-  }
-  
-  .signin-section p {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: #6b7280;
-  }
-  
-  .signin-section p a {
-    color: #ff4d4d;
-    text-decoration: none;
-  }
-  
-  .signin-section p a:hover {
-    text-decoration: underline;
-  }
+  background: #f9f9f9; /* Updated to match previous pages */
+  color: #333333; /* Updated to match previous pages */
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Sign In Section */
+.signin-section {
+  padding: 4rem 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  background: #f5f5f5; /* Consistent background */
+}
+
+.signin-section h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a; /* Consistent heading color */
+  margin-bottom: 2rem;
+}
+
+.error {
+  color: #ff4d4d; /* Same accent color */
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.signin-form input {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  background: #ffffff; /* Consistent input background */
+  color: #333333; /* Consistent text color */
+}
+
+.signin-form input:disabled {
+  background: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.password-field {
+  position: relative;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6b7280; /* Consistent text color */
+  font-size: 1.2rem;
+}
+
+.signin-form button {
+  background: #ff4d4d; /* Same accent color */
+  color: #ffffff;
+  border: none;
+  padding: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signin-form button:hover:not(:disabled) {
+  background: #e63939; /* Same hover color */
+}
+
+.signin-form button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.google-signin {
+  background: #4285f4; /* Google blue */
+  color: #ffffff;
+  border: none;
+  padding: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+.google-signin:hover:not(:disabled) {
+  background: #3267d6; /* Darker Google blue */
+}
+
+.google-signin:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+.signin-section p {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #6b7280; /* Consistent text color */
+}
+
+.signin-section p a {
+  color: #ff4d4d; /* Same accent color */
+  text-decoration: none;
+}
+
+.signin-section p a:hover {
+  text-decoration: underline;
+}
+
+.forgot-password {
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #6b7280; /* Consistent text color */
+}
+
+.forgot-password a {
+  color: #ff4d4d; /* Same accent color */
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}

@@ -1,48 +1,37 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { auth, googleProvider, signInWithPopup } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Navbar from '../components/Navbar';
 import './SignIn.css';
 
 function SignIn() {
+  const { loginWithEmail, loginWithGoogle } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const firebaseUser = userCredential.user;
-
-      // Fetch user data from Firestore (handled by AuthContext)
+      await loginWithEmail(email, password);
       navigate('/');
     } catch (err) {
-      setError(err.message);
+      if (err.code === 'auth/invalid-credential') {
+        setError('Invalid email or password. Try again.');
+      } else {
+        setError(err.message);
+      }
     }
   };
 
   const handleGoogleSignIn = async () => {
     setError('');
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const firebaseUser = result.user;
-
-      // Use Google profile data
-      const userData = {
-        uid: firebaseUser.uid,
-        username: firebaseUser.displayName || firebaseUser.email.split('@')[0],
-        email: firebaseUser.email,
-        pfp: firebaseUser.photoURL || 'https://via.placeholder.com/30?text=' + firebaseUser.displayName.charAt(0).toUpperCase(),
-      };
-      await login(userData);
+      await loginWithGoogle();
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -55,7 +44,7 @@ function SignIn() {
       <section className="signin-section">
         <h1>Sign In</h1>
         {error && <p className="error">{error}</p>}
-        <form className="signin-form" onSubmit={handleSubmit}>
+        <form className="signin-form" onSubmit={handleEmailSignIn}>
           <input
             type="email"
             placeholder="Email"

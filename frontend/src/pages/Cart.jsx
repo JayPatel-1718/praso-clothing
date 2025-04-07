@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { CartContext } from '../context/CartContext';
+import { motion } from 'framer-motion';
 import './Cart.css';
 
 function Cart() {
@@ -25,8 +26,14 @@ function Cart() {
         ) : (
           <>
             <div className="cart-items">
-              {cart.map(item => (
-                <div key={item.id} className="cart-item">
+              {cart.map((item, index) => (
+                <motion.div
+                  key={item.id}
+                  className="cart-item"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1, type: 'spring', stiffness: 100 }}
+                >
                   <img src={item.image} alt={item.name} className="cart-item-image" />
                   <div className="cart-item-details">
                     <h3>{item.name}</h3>
@@ -41,9 +48,10 @@ function Cart() {
                       Remove
                     </button>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
+
             <div className="cart-summary">
               <h2>Total: ${totalPrice.toFixed(2)}</h2>
               <button className="checkout-button" onClick={handleCheckout}>
@@ -53,6 +61,7 @@ function Cart() {
           </>
         )}
       </section>
+
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-section">

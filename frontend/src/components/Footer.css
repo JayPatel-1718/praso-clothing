@@ -1,0 +1,124 @@
+/* General Footer Styles */
+.footer {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 4rem 2rem 2rem;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .footer-section {
+    text-align: left;
+  }
+  
+  .footer-section h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #ffd700; /* Accent color */
+  }
+  
+  .footer-section p {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-bottom: 1rem;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-section ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-section ul li a:hover {
+    color: #ffd700;
+  }
+  
+  /* Newsletter Form */
+  .newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .newsletter-form input {
+    padding: 0.75rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    background: #333333;
+    color: #ffffff;
+    flex: 1;
+    transition: background 0.3s ease;
+  }
+  
+  .newsletter-form input:focus {
+    outline: none;
+    background: #444444;
+  }
+  
+  .newsletter-form button {
+    background: #ffd700;
+    color: #1a1a1a;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  
+  .newsletter-form button:hover {
+    background: #e6c200;
+  }
+  
+  /* Social Links */
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .social-links a {
+    color: #e0e0e0;
+    font-size: 1.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    color: #ffd700;
+    transform: scale(1.2); /* Smooth hover effect */
+  }
+  
+  /* Footer Bottom */
+  .footer-bottom {
+    text-align: center;
+    padding-top: 1rem;
+  }
+  
+  .footer-bottom p {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+  }

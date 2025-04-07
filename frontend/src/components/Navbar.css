@@ -1,34 +1,43 @@
-/* Navbar Styles */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600&display=swap');
+
 .navbar {
-  background: #1a1a1a; /* Dark background */
+  background: #ffffff;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+  width: 100%;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .navbar-brand h2 {
-  font-family: 'Montserrat', sans-serif; /* Modern font */
-  font-size: 1.6rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 3px;
   font-weight: 700;
-  color: #ffffff; /* White logo text */
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  color: #000;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
 }
 
 .navbar-links {
   list-style: none;
   display: flex;
   gap: 2.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar-links li a {
-  font-family: 'Montserrat', sans-serif; /* Modern font */
-  color: #ffffff; /* White link text */
+  font-family: 'Poppins', sans-serif;
+  color: #000000;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -39,11 +48,11 @@
 }
 
 .navbar-links li a:hover {
-  color: #e0e0e0; /* Light gray on hover */
+  color: #444444;
 }
 
 .navbar-links li a.active {
-  color: #ffffff;
+  color: #000000;
 }
 
 .navbar-links li a::after {
@@ -51,7 +60,7 @@
   position: absolute;
   width: 0;
   height: 2px;
-  background: #ffffff; /* White underline */
+  background: #000000;
   bottom: -4px;
   left: 0;
   transition: width 0.3s ease;
@@ -59,27 +68,31 @@
 
 .navbar-links li a:hover::after,
 .navbar-links li a.active::after {
-  width: 100%; /* Underline effect on hover and active */
+  width: 100%;
 }
 
 .navbar-icons {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
+  position: relative;
 }
 
 .icon {
-  font-size: 1.4rem; /* Slightly larger for SVG icons */
-  color: #ffffff; /* White icons */
+  font-size: 1.4rem;
+  color: #000000;
   cursor: pointer;
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .icon:hover {
-  color: #e0e0e0; /* Light gray on hover */
+  color: #444444;
   transform: translateY(-2px);
 }
 
-.cart-icon {
+.search-icon,
+.cart-icon,
+.user-icon {
   position: relative;
 }
 
@@ -87,20 +100,24 @@
   position: absolute;
   top: -10px;
   right: -10px;
-  background: #ff4d4d; /* Red badge */
+  background: #000000;
   color: #ffffff;
   border-radius: 50%;
   padding: 2px 6px;
   font-size: 0.65rem;
   font-weight: 600;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Add to existing Navbar.css */
+.user-container {
+  position: relative;
+}
+
 .user-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  cursor: pointer;
 }
 
 .user-pfp {
@@ -111,7 +128,44 @@
 }
 
 .user-name {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
-  color: #ffffff;
+  color: #000000;
+  display: none;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 160px;
+  overflow: hidden;
+  display: none;
+}
+
+.user-container:hover .user-dropdown {
+  display: block;
+}
+
+.user-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-dropdown li {
+  padding: 0.8rem 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #000000;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.user-dropdown li:hover {
+  background: #f0f0f0;
 }
